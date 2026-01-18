@@ -1,0 +1,182 @@
+.container {
+  display: flex;
+  height: 100vh;
+  background: #ffd1b0;
+  font-family: "Segoe UI", sans-serif;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Lớp trắng ngoài cùng bao cả form và ảnh */
+.outerBox {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 100px;
+  border-radius: 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  gap: 40px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Bên trái: form login */
+.formSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.formBox {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 48px 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ff7f50;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 32px;
+  color: #333;
+}
+
+.formBox input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  background: #fff;
+}
+
+.forgot {
+  text-align: right;
+  font-size: 14px;
+  color: #007bff;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.signinBtn {
+  width: 100%;
+  padding: 14px;
+  background: #ff7f50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signinBtn:hover {
+  background: #ff5722;
+}
+
+.or {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin: 24px 0;
+  position: relative;
+}
+
+.or::before,
+.or::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ccc;
+}
+
+.or::before {
+  left: 0;
+}
+
+.or::after {
+  right: 0;
+}
+
+.socialLogin {
+  display: flex;
+  justify-content: center;
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  transition: box-shadow 0.3s ease;
+}
+
+.googleBtn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.googleBtn img {
+  width: 20px;
+  height: 20px;
+}
+
+.register {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 28px;
+  color: #333;
+}
+
+.register a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Bên phải: hình ảnh */
+.imageSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageSection img {
+  max-width: 90%;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
