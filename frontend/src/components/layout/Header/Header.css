@@ -1,0 +1,97 @@
+header {
+    font-family: Arial, sans-serif;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.top-bar {
+    background-color: #af5353;
+    color: #fff;
+    padding: 15px 20px;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    /* margin: 0 auto;
+    display: flex; */
+    justify-content: space-between;
+    font-size: 40px;
+    font-weight: 800;
+    margin-right: 20px;
+    font-family: rammetto one;
+}
+
+.contact-info {
+    display: flex;
+    gap: 100px;
+}
+
+.contact-info i {
+    margin-right: 5px;
+}
+
+.main-header {
+    background-color: #fff;
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-menu {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+}
+
+.nav-menu a {
+    margin: 0 10px;
+    color: #ae2020;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    gap: 20px;
+}
+.nav-menu a:hover {
+    text-decoration: #1e88e5;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    margin-left: 500px;
+}
+.language-select {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.actions .login-btn,
+.actions .register-btn {
+    width: 100px;
+    margin-left: 20px;
+    font-weight: bold;
+    background-color: #e7dfdf;
+    color: #800000;
+    padding: 15px 20px;
+    text-decoration: none;
+    border-radius: 20px;
+    text-align: center;
+    align-items: center;
+
+    
+}
