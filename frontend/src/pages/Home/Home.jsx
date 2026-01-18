@@ -1,8 +1,8 @@
+import Header from '../../components/layout/Header/Header'
+import { Routes, Route } from 'react-router-dom'
 const Home = () => {
     return (
-        <div>
-            <h1>Home Page</h1>   
-        </div>
+        <Header />
     )
 }
 export default Home
