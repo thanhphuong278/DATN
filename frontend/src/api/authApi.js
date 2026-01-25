@@ -23,6 +23,13 @@ export const loginWithGoogle = async () => {
   }
 };
 
+// Đăng ký tài khoản (chưa xác thực OTP)
+export const register = async (form) => {
+  // sau này gọi: return await axios.post(`${API_URL}/register`, form);
+  console.log("Fake register:", form);
+  return { success: true, message: "OTP sent to email" };
+};
+
 export const sendOtp = async (email) => {
   try {
     const res = await axios.post(`${API_URL}/send-otp`, { email });

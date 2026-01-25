@@ -1,0 +1,31 @@
+.signupBtn {
+  width: 100%;
+  padding: 14px;
+  background: #ff7f50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signupBtn:hover {
+  background: #ff5722;
+}
+
+.loginLink {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 28px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.loginLink a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
