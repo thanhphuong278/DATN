@@ -1,8 +1,8 @@
-.container {
+.login-container {
   display: flex;
   height: 100vh;
   background: #ffd1b0;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "arial", sans-serif;
   align-items: center;
   justify-content: center;
 }
@@ -14,7 +14,7 @@
   max-width: 1000px;
   background: rgba(255, 255, 255, 0.25);
   padding: 100px;
-  border-radius: 32px;
+  border-radius: 40px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
   gap: 40px;
   align-items: center;
@@ -38,15 +38,15 @@
 }
 
 .logo {
-  font-size: 36px;
-  font-weight: bold;
+  font-size: 40px;
+  font-weight: 800;
   color: #ff7f50;
   text-align: center;
   margin-bottom: 8px;
 }
 
 .title {
-  font-size: 26px;
+  font-size: 40px;
   text-align: center;
   margin-bottom: 32px;
   color: #333;
@@ -58,13 +58,13 @@
   margin-bottom: 18px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 20px;
   background: #fff;
 }
 
 .forgot {
   text-align: right;
-  font-size: 14px;
+  font-size: 15px;
   color: #007bff;
   cursor: pointer;
   margin-bottom: 24px;
@@ -78,7 +78,7 @@
   border: none;
   border-radius: 10px;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
   margin-bottom: 24px;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -144,7 +144,7 @@
 
 .register {
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   margin-top: 28px;
   color: #333;
 }

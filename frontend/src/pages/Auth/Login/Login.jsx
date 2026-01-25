@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./style.module.css";
+import "./Login.css";
 import { login, loginWithGoogle } from "../../../api/authApi";
 
 export default function Login() {
@@ -24,18 +24,18 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.outerBox}>
-        <div className={styles.formSection}>
-          <div className={styles.formBox}>
-            <h1 className={styles.logo}>CoStay</h1>
-            <h2 className={styles.title}>Login</h2>
+    <div className={"login-container"}>
+      <div className={"outerBox"}>
+        <div className={"formSection"}>
+          <div className={"formBox"}>
+            <h1 className={"logo"}>CoStay</h1>
+            <h2 className={"title"}>Login</h2>
 
             <form onSubmit={handleLogin}>
               <input
                 type="email"
                 name="email"
-                placeholder="username@gmail.com"
+                placeholder="Email"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -48,26 +48,29 @@ export default function Login() {
                 onChange={handleChange}
                 required
               />
-              <div className={styles.forgot}>Forgot Password?</div>
-              <button type="submit" className={styles.signinBtn}>
+              <div className={"forgot"}>Forgot Password?</div>
+              <button type="submit" className={"signinBtn"}>
                 Sign in
               </button>
             </form>
 
-            <div className={styles.or}>Or continue with</div>
-            <div className={styles.socialLogin}>
-              <button onClick={handleGoogleLogin} className={styles.googleBtn}>
-                <img src="/assets/icons/google.png" alt="Google" />
-                Google
+            <div className={"or"}>Or continue with</div>
+            <div className={"socialLogin"}>
+              <button className={"googleBtn"}>
+                <img
+                  onClick={handleGoogleLogin}
+                  src="/assets/icons/google.png"
+                  alt="Google"
+                />
               </button>
             </div>
 
-            <div className={styles.register}>
+            <div className={"register"}>
               Don’t have an account yet? <a href="/signup">Register for free</a>
             </div>
           </div>
         </div>
-        <div className={styles.imageSection}>
+        <div className={"imageSection"}>
           <img src="/assets/images/login_500x500.png" alt="CoStay mascot" />
         </div>
       </div>
