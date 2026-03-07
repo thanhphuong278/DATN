@@ -1,97 +1,135 @@
-header {
-    font-family: Arial, sans-serif;
-    width: 100%;
+.header {
+  width: 100%;
+  font-family: Arial, sans-serif;
+  position: fixed; /* cố định header */
+  top: 0; /* dính ở trên cùng */
+  left: 0;
+  z-index: 1000;
 }
 
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-
+/* Top bar */
 .top-bar {
-    background-color: #af5353;
-    color: #fff;
-    padding: 15px 20px;
-    display: block;
-    justify-content: space-between;
-    align-items: center;
+  background: #f8f9fa;
+  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.top-bar span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Navigation bar */
+.nav-bar {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
-    /* margin: 0 auto;
-    display: flex; */
-    justify-content: space-between;
-    font-size: 40px;
-    font-weight: 800;
-    margin-right: 20px;
-    font-family: rammetto one;
+  font-family: "Montserrat", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: 1px;
 }
 
-.contact-info {
-    display: flex;
-    gap: 100px;
+.icon {
+  width: 16px;
+  height: 16px;
+  filter: grayscale(100%) brightness(0.4); /* icon đồng bộ màu */
 }
 
-.contact-info i {
-    margin-right: 5px;
+.nav-bar ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
 }
 
-.main-header {
-    background-color: #fff;
-    padding: 15px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: block;
-    justify-content: space-between;
-    align-items: center;
-}
-.nav-menu {
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
+.nav-bar ul li {
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
 }
 
-.nav-menu a {
-    margin: 0 10px;
-    color: #ae2020;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 20px;
-    gap: 20px;
-}
-.nav-menu a:hover {
-    text-decoration: #1e88e5;
+.nav-bar ul li:hover {
+  color: #007bff;
 }
 
-.actions {
-    display: flex;
-    align-items: center;
-    margin-left: 500px;
-}
-.language-select {
-    margin-right: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    text-decoration: none;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
+.nav-bar ul li::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #007bff;
+  transition: width 0.3s;
 }
 
-.actions .login-btn,
-.actions .register-btn {
-    width: 100px;
-    margin-left: 20px;
-    font-weight: bold;
-    background-color: #e7dfdf;
-    color: #800000;
-    padding: 15px 20px;
-    text-decoration: none;
-    border-radius: 20px;
-    text-align: center;
-    align-items: center;
+.nav-bar ul li:hover::after {
+  width: 100%;
+}
 
-    
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.language-selector select {
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: white;
+  transition: all 0.3s;
+}
+
+.language-selector select:hover {
+  border-color: #007bff;
+}
+
+/* Auth buttons */
+.auth-buttons button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 30px;
+  transition: all 0.3s;
+}
+
+.auth-buttons .login {
+  background: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.auth-buttons .login:hover {
+  background: #007bff;
+  color: white;
+}
+
+.auth-buttons .register {
+  background: #007bff;
+  color: white;
+}
+
+.auth-buttons .register:hover {
+  background: #0056b3;
 }

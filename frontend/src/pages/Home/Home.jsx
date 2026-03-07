@@ -1,8 +1,17 @@
-import Header from '../../components/layout/Header/Header'
-import { Routes, Route } from 'react-router-dom'
+import React from "react";
+import Header from "../../components/layout/Header/Header";
+import Body from "../../components/layout/Body/Body";
+import Footer from "../../components/layout/Footer/Footer";
+import "./Home.css";
+
 const Home = () => {
-    return (
-        <Header />
-    )
-}
-export default Home
+  return (
+    <div>
+      <Header />
+      <Body />
+      <Footer />
+    </div>
+  );
+};
+
+export default Home;
