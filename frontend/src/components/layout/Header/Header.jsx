@@ -1,50 +1,64 @@
-import { Link } from 'react-router-dom'
-import './Header.css'
+import React from "react";
+import "./header.css";
+import Button from "../../common/Button/Button";
 
 const Header = () => {
   return (
     <header className="header">
+      {/* Top bar */}
       <div className="top-bar">
-        <div className="container">
-          <div className="contact-info">
-            <div className="address">
-              <i className="fas fa-map-marker-alt"></i> 470 Trần Đại Nghĩa, Ngũ Hành Sơn, Đà Nẵng
-            </div>
-            <div className="phone">
-              <i className="fas fa-phone-alt"></i> +84 123 456 789
-            </div>
-            <div className="email">
-              <i className="fas fa-envelope"></i> costayvn@gmail.com
-            </div>
-          </div>
-        </div>
+        <span>
+          <img
+            src="../../../../public/assets/icons/location.png"
+            className="icon"
+          ></img>
+          470 Trần Đại Nghĩa, Ngũ Hành Sơn, Đà Nẵng
+        </span>
+        <span>
+          <img
+            src="../../../../public/assets/icons/telephone.png"
+            className="icon"
+          ></img>
+          +84 355 902 873
+        </span>
+        <span>
+          <img
+            src="../../../../public/assets/icons/email.png"
+            className="icon"
+          ></img>
+          costay@gmail.com
+        </span>
       </div>
 
-      <div className="main-header">
-        <div className="container">
-          <div className="logo">CoStay</div>
+      {/* Navigation */}
+      <div className="nav-bar">
+        <div className="logo">CoStay</div>
+        <nav>
+          <ul>
+            <li to="/">Trang chủ</li>
+            <li>Dịch vụ</li>
+            <li>Đặt sự kiện</li>
+            <li>Liên hệ</li>
+          </ul>
+        </nav>
 
-          <nav className="nav-menu">
-            <Link to="/">Trang chủ</Link>
-            <Link to="/about">Giới thiệu</Link>
-            <Link to="/services">Dịch vụ</Link>
-            <Link to="/booking">Đặt sự kiện</Link>
-            <Link to="/contact">Liên hệ</Link>
-          </nav>
-          
-          <div className="actions">
-            <select className="language-select">
+        <div className="top-actions">
+          {/* Language selector */}
+          <div className="language-selector">
+            <select>
               <option value="vi">VI</option>
-              <option value="en">EN</option>
+              <option value="en">ENG</option>
             </select>
-            <Link to="/login" className="login-btn">ĐĂNG NHẬP</Link>
-            <Link to="/signup" className="register-btn">ĐĂNG KÝ</Link>
-            
+          </div>
+
+          <div className="auth-buttons">
+            <Button to="/login">Đăng nhập</Button>
+            <Button to="/signup">Đăng ký</Button>
           </div>
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
