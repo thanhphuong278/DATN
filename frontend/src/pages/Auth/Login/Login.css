@@ -1,7 +1,7 @@
 .login-container {
   display: flex;
   height: 100vh;
-  background: #ffd1b0;
+  /* background: #ffd1b0; */
   font-family: "arial", sans-serif;
   align-items: center;
   justify-content: center;
@@ -12,13 +12,17 @@
   display: flex;
   width: 100%;
   max-width: 1000px;
-  background: rgba(255, 255, 255, 0.25);
+  /* background: rgba(255, 255, 255, 0.25); */
   padding: 100px;
   border-radius: 40px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
   gap: 40px;
   align-items: center;
   justify-content: space-between;
+  background-image: url('/assets/images/AnhNen.jpg');
+  background-size: cover;
+  background-position: center;
+  
 }
 
 /* Bên trái: form login */
@@ -30,8 +34,8 @@
 
 .formBox {
   width: 100%;
-  max-width: 420px;
-  background: rgba(255, 255, 255, 0.4);
+  max-width: 550px;
+  background: rgb(255 255 255 / 50%);
   padding: 48px 40px;
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -46,14 +50,15 @@
 }
 
 .title {
-  font-size: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 50px;
   text-align: center;
   margin-bottom: 32px;
   color: #333;
 }
 
 .formBox input {
-  width: 100%;
+  width: stretch;
   padding: 14px 16px;
   margin-bottom: 18px;
   border: 1px solid #ccc;
@@ -119,7 +124,7 @@
   justify-content: center;
 }
 
-.googleBtn {
+.googleBtn , .facebookBtn {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -131,6 +136,7 @@
   font-weight: 500;
   font-size: 15px;
   transition: box-shadow 0.3s ease;
+  margin: 0 8px;
 }
 
 .googleBtn:hover {
@@ -138,11 +144,18 @@
 }
 
 .googleBtn img {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+
+.facebookBtn img {
+  width: 30px;
+  height: 30px;
 }
 
 .register {
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
   font-size: 15px;
   margin-top: 28px;
@@ -179,4 +192,17 @@
   100% {
     transform: translateY(0);
   }
+}
+
+.passwordBox {
+  position: relative;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 20px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
 }
