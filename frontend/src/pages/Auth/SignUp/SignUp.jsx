@@ -3,8 +3,15 @@ import "./SignUp.css";
 import useNavigation from "../../../hooks/useNavigation";
 
 export default function SignUp() {
-  const [form, setForm] = useState({ usename: "", email: "", password: "" });
-  const [step, setStep] = useState("form");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: ""
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); const [step, setStep] = useState("form");
   const [otp, setOtp] = useState("");
   const { goToLogin } = useNavigation();
 
@@ -41,7 +48,6 @@ export default function SignUp() {
       <div className={"outerBox"}>
         <div className={"formSection"}>
           <div className={"formBox"}>
-            <h1 className={"logo"}>CoStay</h1>
             <h2 className={"title"}>
               {step === "form" ? "Register" : "Enter OTP"}
             </h2>
@@ -59,27 +65,48 @@ export default function SignUp() {
                 <input
                   type="email"
                   name="email"
-                  placeholder="username@gmail.com"
+                  placeholder="Email"
                   value={form.email}
                   onChange={handleChange}
                   required
                 />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={form.password}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                  value={form.confirmPassword}
-                  onChange={handleChange}
-                  required
-                />
+
+                <div className="passwordBox">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    value={form.password}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <span
+                    className="togglePassword"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <i className="fa fa-eye-slash"></i> : <i className="fa fa-eye"></i>}
+                  </span>
+                </div>
+                <div className="passwordBox">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    placeholder="Confirm Password"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    required
+                  />
+
+                  <span
+                    className="togglePassword"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword
+                      ? <i className="fa fa-eye-slash"></i>
+                      : <i className="fa fa-eye"></i>}
+                  </span>
+                </div>
                 <button type="submit" className={"signupBtn"}>
                   Register
                 </button>
@@ -104,15 +131,32 @@ export default function SignUp() {
               </form>
             )}
 
+            <div className={"or"}>Or continue with</div>
+            <div className={"socialLogin"}>
+              <button className={"googleBtn"}>
+                <img
+                  src="/assets/icons/google.png"
+                  alt="Google"
+                />
+              
+              </button>
+              <button className={"facebookBtn"}>
+                <img
+                  src="/assets/icons/facebook-logo.png"
+                  alt="Facebook"
+                />
+              </button>
+            </div>
+
             <div className={"loginLink"}>
               Already have an account? <a href="/login">Login here</a>
             </div>
           </div>
         </div>
 
-        <div className={"imageSection"}>
+        {/* <div className={"imageSection"}>
           <img src="/assets/images/login_500x500.png" alt="CoStay mascot" />
-        </div>
+        </div> */}
       </div>
     </div>
   );
