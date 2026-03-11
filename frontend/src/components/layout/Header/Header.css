@@ -63,8 +63,12 @@
   position: relative;
   transition: color 0.3s;
 }
+nav ul li a {
+  text-decoration: none;
+  color: black;
+}
 
-.nav-bar ul li:hover {
+.nav-bar ul li a:hover {
   color: #007bff;
 }
 

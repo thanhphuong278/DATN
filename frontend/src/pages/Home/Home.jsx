@@ -7,9 +7,7 @@ import "./Home.css";
 const Home = () => {
   return (
     <div>
-      <Header />
       <Body />
-      <Footer />
     </div>
   );
 };
