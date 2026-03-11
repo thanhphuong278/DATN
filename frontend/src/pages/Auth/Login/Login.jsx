@@ -27,9 +27,7 @@ export default function Login() {
   return (
     <div className={"login-container"}>
       <div className={"outerBox"}>
-
         <div className={"formSection"}>
-
           <div className={"formBox"}>
             <h2 className={"title"}>Login</h2>
 
@@ -56,10 +54,16 @@ export default function Login() {
                   className="togglePassword"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <i className="fa fa-eye-slash"></i> : <i className="fa fa-eye"></i>}
+                  {showPassword ? (
+                    <i className="fa fa-eye-slash"></i>
+                  ) : (
+                    <i className="fa fa-eye"></i>
+                  )}
                 </span>
               </div>
-              <div className={"forgot"}>Forgot Password?</div>
+              <div className={"forgot"}>
+                <a href="/forgot-password">Forgot Password?</a>
+              </div>
               <button type="submit" className={"signinBtn"}>
                 Sign in
               </button>
@@ -75,12 +79,8 @@ export default function Login() {
                 />
               </button>
               <button className={"facebookBtn"}>
-                <img
-                  src="/assets/icons/facebook-logo.png"
-                  alt="Facebook"
-                />
+                <img src="/assets/icons/facebook-logo.png" alt="Facebook" />
               </button>
-
             </div>
 
             <div className={"register"}>
