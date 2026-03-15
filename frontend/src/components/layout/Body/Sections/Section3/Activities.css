@@ -12,6 +12,8 @@
   width: 100%;
   padding-top: 2rem;
   padding-bottom: 4rem;
+  height: 500px;
+  overflow: hidden
 }
 
 .activity-card {

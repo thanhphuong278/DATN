@@ -30,6 +30,12 @@ const activitiesData = [
     desc: "Khám phá thành phố cùng hướng dẫn viên.",
     btn: "EXPLORE",
   },
+  {
+    img: "/assets/images/background.jpg",
+    title: "City Tour",
+    desc: "Khám phá thành phố cùng hướng dẫn viên.",
+    btn: "EXPLORE",
+  },
 ];
 
 const Activities = () => {
