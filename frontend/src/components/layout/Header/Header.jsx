@@ -42,7 +42,9 @@ const Header = () => {
               </Link>
             </li>
             <li>Dịch vụ</li>
-            <li>Đặt sự kiện</li>
+            <li>
+              <Link to="/reviews">Đánh giá</Link>
+            </li>
             <li>
               <Link to="/contact" className="active">
                 Liên hệ
