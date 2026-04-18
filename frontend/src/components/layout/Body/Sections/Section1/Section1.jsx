@@ -6,67 +6,45 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./Section1.css";
 import Button from "../../../../common/Button/Button";
+// import banner from "../../../../../../public/assets/images/Banner2.jpg"; 
+
 
 const Section1 = () => {
-  const slides = [
-    {
-      title: "The Quintessence Of Rest",
-      subtitle: "So close, so peaceful",
-      img: "../../../../../../public/assets/images/AnhNen.jpg",
-    },
-    {
-      title: "Luxury Spa & Wellness",
-      subtitle: "Relax, enjoy and feel good",
-      img: "../../../../../../public/assets/images/Banner2.jpg",
-    },
-    {
-      title: "Exclusive Dining Experience",
-      subtitle: "Taste the best cuisine",
-      img: "../../../../../../public/assets/images/Banner3.jpg",
-    },
-  ];
+
 
   return (
     <section className="section1">
-      <Swiper
-        spaceBetween={30}
-        slidesPerView={1}
-        loop
-        autoplay={{ delay: 5000 }}
-        pagination={{ clickable: true }}
-        navigation
-        modules={[Autoplay, Pagination, Navigation]}
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index}>
-            <div
-              className="slide"
-              //   style={{
-              //     backgroundImage: `url("../../../../../../public/assets/images/background.jpg")`,
-              //   }}
-            >
-              <div
-                className="overlay"
-                style={{ backgroundImage: `url(${slide.img})` }}
-              >
-                <h2>{slide.title}</h2>
-                <p>{slide.subtitle}</p>
-                <div className="buttons">
-                  <Button>EXPLORE ROOMS</Button>
-                  <Button>CHECK AVAILABILITY</Button>
-                  <Button>BOOK NOW</Button>
-                </div>
-                <div className="socials">
-                  <i className="fab fa-facebook"></i>
-                  <i className="fab fa-twitter"></i>
-                  <i className="fab fa-instagram"></i>
-                  <i className="fab fa-youtube"></i>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="container-section1">
+        <div className="left">
+          {/* <div className="badge">NỀN TẢNG HỌC VÀ LUYỆN THI TOPIK SỐ 1</div> */}
+
+          <h1>
+            Học và Luyện Thi <br />
+            <span>TOPIK TRỰC TUYẾN</span>
+          </h1>
+
+          <p className="subtitle">
+            Tự tin chinh phục TOPIK từng bước        </p>
+
+          <p className="description">
+            Trải nghiệm nền tảng luyện đề TOPIK trực tuyến với mô phỏng 100% format và thời gian thi thật, giúp bạn tự tin bước vào kỳ thi chính thức với sự chuẩn bị tốt nhất.
+          </p>
+
+          <div className="features">
+            <span>🎯 Đề chuẩn</span>
+            <span>⏱️ Giờ thật</span>
+            <span>📊 Kết quả tức thì</span>
+          </div>
+
+          <div className="actions">
+            <button className="btn"><link rel="stylesheet" href="/exam" />Bắt đầu thi thử ngay →</button>
+          </div>
+        </div>
+
+        {/* <div className="right">
+        <img src={banner} alt="banner" />
+      </div> */}
+      </div>
     </section>
   );
 };

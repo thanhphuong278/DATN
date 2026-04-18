@@ -1,60 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import "./header.css";
 import Button from "../../common/Button/Button";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="header">
-      {/* Top bar */}
-      <div className="top-bar">
-        <span>
-          <img
-            src="../../../../public/assets/icons/location.png"
-            className="icon"
-          ></img>
-          470 Trần Đại Nghĩa, Ngũ Hành Sơn, Đà Nẵng
-        </span>
-        <span>
-          <img
-            src="../../../../public/assets/icons/telephone.png"
-            className="icon"
-          ></img>
-          +84 355 902 873
-        </span>
-        <span>
-          <img
-            src="../../../../public/assets/icons/email.png"
-            className="icon"
-          ></img>
-          costay@gmail.com
-        </span>
-      </div>
-
-      {/* Navigation */}
       <div className="nav-bar">
-        <div className="logo">CoStay</div>
-        <nav>
+        <div className="logo">
+          <Link to="/">HI KOREA</Link>
+        </div>
+
+        <div
+          className={`hamburger ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </div>
+
+        <nav className={menuOpen ? "open" : ""}>
           <ul>
-            <li>
-              <Link to="/" className="active">
-                Trang chủ
-              </Link>
-            </li>
-            <li>Dịch vụ</li>
-            <li>
-              <Link to="/reviews">Đánh giá</Link>
-            </li>
-            <li>
-              <Link to="/contact" className="active">
-                Liên hệ
-              </Link>
-            </li>
+            <li><Link to="/blog">Blog</Link></li>
+            <li><Link to="/flashcard">Flashcard</Link></li>
+            <li><Link to="/exam">Luyện thi</Link></li>
+            <li><Link to="/courses">Khóa học</Link></li>
+            <li><Link to="/reviews">Đánh giá</Link></li>
           </ul>
         </nav>
 
-        <div className="top-actions">
-          {/* Language selector */}
+        <div className={`top-actions ${menuOpen ? "open" : ""}`}>
           <div className="language-selector">
             <select>
               <option value="vi">VI</option>
