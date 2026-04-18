@@ -37,11 +37,15 @@
 }
 
 .logo {
-  font-family: "Montserrat", sans-serif;
-  font-size: 3rem;
+  font-family: "Great Vibes", cursive;
+  font-size: 2rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #b74435;
   letter-spacing: 1px;
+}
+.logo a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .icon {
@@ -69,7 +73,7 @@ nav ul li a {
 }
 
 .nav-bar ul li a:hover {
-  color: #007bff;
+  color: #b74435;
 }
 
 .nav-bar ul li::after {
@@ -79,7 +83,7 @@ nav ul li a {
   left: 0;
   width: 0%;
   height: 2px;
-  background: #007bff;
+  background: #b74435;
   transition: width 0.3s;
 }
 
@@ -136,4 +140,69 @@ nav ul li a {
 
 .auth-buttons .register:hover {
   background: #0056b3;
+}
+.hamburger {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-bar {
+    position: relative;
+    padding: 1rem;
+  }
+
+  nav {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: white;
+    display: none;
+    flex-direction: column;
+    padding: 20px 0;
+    border-top: 1px solid #eee;
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  .nav-bar ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-bar ul li {
+    font-size: 18px;
+  }
+
+  /* ACTIONS */
+  .top-actions {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .top-actions.open {
+    display: flex;
+  }
+
+  .auth-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .auth-buttons button {
+    width: 100%;
+  }
 }

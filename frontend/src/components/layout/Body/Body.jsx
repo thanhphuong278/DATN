@@ -9,8 +9,8 @@ const Body = () => {
   return (
     <div className="body-container">
       <Section1 />
-      <Section2 />
-      <Activities />
+      {/* <Section2 /> */}
+      {/* <Activities /> */}
     </div>
   );
 };
