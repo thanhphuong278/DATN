@@ -1,31 +1,136 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f2f5;
+}
+
+.signup-box {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  width: 420px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signup-title {
+  text-align: center;
+  color: #1976d2;
+  margin-bottom: 20px;
+}
+
+.signup-form input,
+.verify-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+}
+
+.passwordBox {
+  position: relative;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  cursor: pointer;
+  color: #1976d2;
+}
+
+.agreeBox label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.agreeBox input[type="checkbox"] {
+  width: 16px; /* thu nhỏ ô checkbox */
+  height: 16px;
+  margin-right: 6px; /* khoảng cách vừa đủ với text */
+  flex-shrink: 0; /* không cho checkbox co giãn */
+}
+
+.agreeBox a {
+  text-decoration: none;
+  color: #64b5f6;
+  transition: color 0.3s ease;
+}
+
+.agreeBox a:hover {
+  color: #e53935;
+}
+
 .signupBtn {
   width: 100%;
-  padding: 14px;
-  background: #ff7f50;
-  color: white;
+  padding: 12px;
+  background: #65a6e7;
+  color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 16px;
   font-weight: bold;
-  font-size: 20px;
-  margin-top: 16px;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
 .signupBtn:hover {
-  background: #ff5722;
+  background: #1565c0;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.socialLogin {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+}
+
+.googleBtn,
+.facebookBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.googleBtn img,
+.facebookBtn img {
+  width: 20px;
+  height: 20px;
 }
 
 .loginLink {
   text-align: center;
   font-size: 14px;
-  margin-top: 28px;
-  margin-bottom: 16px;
-  color: #333;
+  margin-top: 12px;
 }
 
 .loginLink a {
-  color: #007bff;
   text-decoration: none;
-  font-weight: 500;
+  color: #64b5f6; /* xanh nhạt */
+  transition: color 0.3s ease;
+}
+
+.loginLink a:hover {
+  color: #e53935; /* đỏ khi hover */
+}
+
+.expire-note {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  margin-top: 10px;
 }
