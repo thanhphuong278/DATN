@@ -1,0 +1,117 @@
+.flashcard-container {
+    font-family: Arial, sans-serif;
+    margin-top: 92px;
+    margin-bottom: 150px;
+}
+
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 20px 40px;
+    width: 100%;
+}
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hero-right {
+    display: flex;
+    align-items: center;
+}
+
+.hero-left button {
+    padding: 10px 20px;
+    border: 1px solid rgb(208, 108, 108);
+    border-radius: 8px;
+    cursor: pointer;
+    background: rgba(239, 238, 238, 0.3);
+    color: black;
+
+}
+
+.hero-left button.active {
+    background: #b74435;
+    color: white;
+    font-weight: 600;
+}
+
+.create-flashcard {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #b74435;
+    color: white;
+}
+.content {
+    padding-left: 40px;
+    padding-right: 50px;
+    /* background: #f5f5f5; */
+}
+
+.title-flashcard {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-grid {
+    display: flex;
+    gap: 15px;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-horizontal {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* background: #f5f7fa; */
+    padding: 15px 20px;
+    border-radius: 12px;
+    width: 330px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card-horizontal:hover {
+    background: #e9eef5;
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    background: #ebeef1;
+    color: #f6483b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 24px;
+}
+
+/* CONTENT */
+.card-content h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.card-content p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+

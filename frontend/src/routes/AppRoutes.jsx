@@ -5,6 +5,8 @@ import Home from "../pages/Home/Home.jsx";
 import ForgotPassword from "../pages/Auth/ForgotPW/ForgotPW.jsx";
 import Contact from "../pages/Contact/Contact.jsx";
 import Reviews from "../pages/Reviews/Reviews.jsx";
+import Flashcard from "../pages/Flashcard/Flashcard.jsx";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -14,6 +16,7 @@ export default function AppRoutes() {
       <Route path="/contact" element={<Contact />} />
       <Route path="/reviews" element={<Reviews />} />
       <Route path="/" element={<Home />} />
+      <Route path="flashcard" element={<Flashcard />} />
     </Routes>
   );
 }
