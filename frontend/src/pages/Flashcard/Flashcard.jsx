@@ -1,10 +1,14 @@
 
 import React, { useState } from "react";
 import "./Flashcard.css";
+import { useNavigate } from "react-router-dom";
+
 
 const Flashcard = () => {
     const [activeTab, setActiveTab] = useState("explore");
     const [showForm, setShowForm] = useState(false);
+    const navigate = useNavigate();
+
 
 
     const myWords = [
@@ -33,7 +37,10 @@ const Flashcard = () => {
                 </div>
 
                 <div className="hero-right">
-                    <button className="create-flashcard" onClick={() => setShowForm(true)}>
+                    <button
+                        className="create-flashcard"
+                        onClick={() => navigate("/flashcard/create-flashcard")}
+                    >
                         Tạo flashcard mới
                     </button>
                 </div>
@@ -45,7 +52,7 @@ const Flashcard = () => {
                         <h3 className="title-flashcard">Khám phá chủ đề từ vựng</h3>
 
                         <div className="card-grid">
-                            <div className="card-horizontal">
+                            <div className="card-horizontal" onClick={() => navigate("/study/1")}>
                                 <div className="card-icon">
                                     📘
                                 </div>
@@ -178,7 +185,7 @@ const Flashcard = () => {
                     </>
                 )}
 
-                
+
             </div>
         </div>
     );
