@@ -1,0 +1,148 @@
+.create-container {
+    max-width: 900px;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    padding: 20px;
+    /* background: #f9fafb; */
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.textarea {
+    min-height: 80px;
+}
+
+.vocab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-flashcard {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+}
+
+.btn-flashcard.primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+}
+
+.notice {
+    background: #e6f4ea;
+    border: 1px solid #b7e4c7;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.word-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.row input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.row textarea {
+    width: 100%;
+}
+
+.delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.save-btn-flashcard {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: #8a371e;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.visibility-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.visibility-btn.public {
+    background: #e5e7eb; 
+    color: #374151;
+}
+
+.visibility-btn.private {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.visibility-btn:hover {
+    transform: scale(1.05);
+}
+
+.icon-visibility {
+    font-size: 14px;
+}

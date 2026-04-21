@@ -6,6 +6,8 @@ import ForgotPassword from "../pages/Auth/ForgotPW/ForgotPW.jsx";
 import Contact from "../pages/Contact/Contact.jsx";
 import Reviews from "../pages/Reviews/Reviews.jsx";
 import Flashcard from "../pages/Flashcard/Flashcard.jsx";
+import CreateFlashcard from "../pages/Flashcard/CreateFlashcard.jsx";
+import StudyFlashcard from "../pages/Flashcard/StudyFlashcard.jsx";
 
 export default function AppRoutes() {
   return (
@@ -17,6 +19,8 @@ export default function AppRoutes() {
       <Route path="/reviews" element={<Reviews />} />
       <Route path="/" element={<Home />} />
       <Route path="flashcard" element={<Flashcard />} />
+      <Route path="flashcard/create-flashcard" element={<CreateFlashcard />} />
+      <Route path="/study/:id" element={<StudyFlashcard />} />
     </Routes>
   );
 }

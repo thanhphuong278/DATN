@@ -84,6 +84,7 @@
     width: 330px;
     cursor: pointer;
     transition: 0.3s;
+    border: 1px solid #e5e7eb;
 }
 
 .card-horizontal:hover {
