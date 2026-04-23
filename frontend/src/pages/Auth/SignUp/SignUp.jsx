@@ -1,63 +1,84 @@
 import { useState } from "react";
 import "./SignUp.css";
 import useNavigation from "../../../hooks/useNavigation";
-import { signup, signupWithGoogle } from "../../../api/authApi";
+import { signup, verifyOtp, loginWithGoogle } from "../../../api/authApi";
 
 export default function SignUp() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
     password: "",
     confirmPassword: "",
     agree: false,
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [step, setStep] = useState("form");
   const [otp, setOtp] = useState("");
+
   const { goToLogin } = useNavigation();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
+  // ================= SIGNUP =================
   const handleSignup = async (e) => {
     e.preventDefault();
+
     if (form.password !== form.confirmPassword) {
       alert("Mật khẩu xác nhận không khớp!");
       return;
     }
+
     if (!form.agree) {
-      alert("Bạn cần đồng ý với Điều khoản dịch vụ và Chính sách bảo mật.");
+      alert("Bạn cần đồng ý điều khoản");
       return;
     }
 
     try {
-      const data = await signup(form); // API register
-      console.log("Signup Success", data);
-      // Sau khi đăng ký thành công, giả lập gửi OTP
-      console.log("Đã gửi OTP đến email:", form.email);
+      await signup({
+        username: form.name,
+        email: form.email,
+        password: form.password,
+      });
+
+      alert("OTP đã gửi về email!");
       setStep("otp");
     } catch (err) {
-      console.log("Signup Failed", err);
+      const msg = err.response?.data?.message;
+
+      if (msg === "Email already exists") {
+        alert("Email này đã đăng ký rồi.");
+        setStep("otp");
+      } else {
+        alert("Đăng ký thất bại: " + (msg || "Lỗi không xác định"));
+      }
     }
   };
 
+  // ================= VERIFY OTP =================
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
-    // Sau này backend sẽ verify OTP
-    if (otp === "123456") {
-      alert("Đăng ký thành công!");
+
+    try {
+      await verifyOtp(form.email, otp);
+      alert("Xác thực thành công!");
       goToLogin();
-    } else {
-      alert("OTP không đúng. Vui lòng thử lại.");
+    } catch (err) {
+      console.log(err);
+      alert(err.response?.data?.message || "OTP sai hoặc hết hạn");
     }
   };
 
-  const handleGoogleSignup = async () => {
-    await signupWithGoogle();
+  // ================= GOOGLE =================
+  const handleGoogleSignup = () => {
+    loginWithGoogle();
   };
 
   return (
@@ -77,6 +98,7 @@ export default function SignUp() {
               onChange={handleChange}
               required
             />
+
             <input
               type="email"
               name="email"
@@ -85,17 +107,12 @@ export default function SignUp() {
               onChange={handleChange}
               required
             />
-            <input
-              type="text"
-              name="phone"
-              placeholder="Số điện thoại"
-              value={form.phone}
-              onChange={handleChange}
-            />
+
+            {/* ❌ ĐÃ XÓA PHONE */}
 
             <div className="passwordBox">
               <input
-                type={showPassword ? "text" : "password"}
+type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Mật khẩu"
                 value={form.password}
@@ -158,6 +175,7 @@ export default function SignUp() {
               Mã OTP đã được gửi đến email: <strong>{form.email}</strong>.<br />
               Vui lòng nhập mã OTP để xác thực.
             </p>
+
             <input
               type="text"
               name="otp"
@@ -166,21 +184,25 @@ export default function SignUp() {
               onChange={(e) => setOtp(e.target.value)}
               required
             />
+
             <button type="submit" className="signupBtn">
               Xác thực Email
             </button>
-            <p className="expire-note">Link này sẽ hết hạn sau 24 giờ.</p>
+
+            <p className="expire-note">Mã OTP sẽ hết hạn sau vài phút.</p>
           </form>
         )}
 
         <div className="divider">Hoặc đăng ký với</div>
+
         <div className="socialLogin">
           <button className="googleBtn" onClick={handleGoogleSignup}>
             <img src="/assets/icons/google.png" alt="Google" /> Google
           </button>
+
           <button className="facebookBtn">
             <img src="/assets/icons/facebook-logo.png" alt="Facebook" />{" "}
-            Facebook
+Facebook
           </button>
         </div>
 
