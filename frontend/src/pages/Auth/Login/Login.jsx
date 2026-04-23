@@ -6,23 +6,49 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // ================= LOGIN =================
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (loading) return; // chống spam click
+    setLoading(true);
+
     try {
-      const data = await login({ ...form, remember });
-      console.log("Login Success", data);
+      const data = await login(form);
+
+      // lưu token
+      if (remember) {
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+      } else {
+        sessionStorage.setItem("accessToken", data.accessToken);
+        sessionStorage.setItem("refreshToken", data.refreshToken);
+      }
+
+      console.log("Login Success:", data);
+
+      // redirect
+      window.location.href = "/";
     } catch (err) {
-      console.log("Login Failed", err);
+      console.log("Login Failed:", err);
+
+      const message = err.response?.data?.message || "Sai email hoặc mật khẩu";
+
+      alert(message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleGoogleLogin = async () => {
-    await loginWithGoogle();
+  // ================= GOOGLE =================
+  const handleGoogleLogin = () => {
+    loginWithGoogle();
   };
 
   return (
@@ -31,11 +57,11 @@ export default function Login() {
         <h2 className="login-title">Đăng nhập</h2>
 
         <form onSubmit={handleLogin} className="login-form">
-          <label className="form-label">Tên đăng nhập:</label>
+          <label className="form-label">Email:</label>
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Nhập email"
             value={form.email}
             onChange={handleChange}
             required
@@ -46,7 +72,7 @@ export default function Login() {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              placeholder="Password"
+              placeholder="Nhập mật khẩu"
               value={form.password}
               onChange={handleChange}
               required
@@ -70,15 +96,15 @@ export default function Login() {
                 checked={remember}
                 onChange={() => setRemember(!remember)}
               />
-              Ghi nhớ
+              Ghi nhớ đăng nhập
             </label>
-            <a href="/forgot-password" className="forgot-link">
+<a href="/forgot-password" className="forgot-link">
               Quên mật khẩu?
             </a>
           </div>
 
-          <button type="submit" className="signinBtn">
-            Đăng nhập
+          <button type="submit" className="signinBtn" disabled={loading}>
+            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
           </button>
         </form>
 
@@ -87,11 +113,13 @@ export default function Login() {
         </div>
 
         <div className="divider">Hoặc đăng nhập bằng</div>
+
         <div className="socialLogin">
           <button className="googleBtn" onClick={handleGoogleLogin}>
             <img src="/assets/icons/google.png" alt="Google" />
             Google
           </button>
+
           <button className="facebookBtn">
             <img src="/assets/icons/facebook-logo.png" alt="Facebook" />
             Facebook

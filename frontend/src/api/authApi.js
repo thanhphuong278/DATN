@@ -1,67 +1,75 @@
 import axios from "axios";
 
-const API_URL = ""; // sau này thay bằng URL backend của bạn
+const API_URL = "http://localhost:8081/api/auth";
 
-// Đăng nhập bằng email + password
-export const login = async (form) => {
-  try {
-    const res = await axios.post(`${API_URL}/login`, form);
-    return res.data;
-  } catch (err) {
-    console.error("Login error:", err);
-    throw err;
+const api = axios.create({
+  baseURL: API_URL,
+});
+
+// ================= INTERCEPTOR =================
+
+// Gắn accessToken tự động
+api.interceptors.request.use((config) => {
+  const token =
+    localStorage.getItem("accessToken") ||
+    sessionStorage.getItem("accessToken");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
+
+  return config;
+});
+
+// ================= AUTH =================
+
+export const login = async (data) => {
+  const res = await api.post("/login", data);
+  return res.data;
 };
 
-// Đăng nhập bằng Google
-export const loginWithGoogle = async () => {
-  try {
-    window.open(`${API_URL}/google-login`, "_self");
-  } catch (err) {
-    console.error("Google login error:", err);
-    throw err;
-  }
+export const signup = async (data) => {
+  const res = await api.post("/register", data);
+  return res.data;
 };
 
-// Đăng ký tài khoản (email + password)
-export const signup = async (form) => {
-  try {
-    const res = await axios.post(`${API_URL}/signup`, form);
-    return res.data;
-  } catch (err) {
-    console.error("Signup error:", err);
-    throw err;
-  }
+export const verifyOtp = async (email, otp) => {
+  const res = await api.post("/verify", { email, otp });
+  return res.data;
 };
 
-// Đăng ký bằng Google
-export const signupWithGoogle = async () => {
-  try {
-    window.open(`${API_URL}/google-signup`, "_self");
-  } catch (err) {
-    console.error("Google signup error:", err);
-    throw err;
-  }
+export const resendOtp = async (email) => {
+  const res = await api.post(`/resend-otp?email=${encodeURIComponent(email)}`);
+  return res.data;
 };
 
-// Gửi OTP tới email
-export const sendOtp = async (email) => {
-  try {
-    const res = await axios.post(`${API_URL}/send-otp`, { email });
-    return res.data;
-  } catch (err) {
-    console.error("Send OTP error:", err);
-    throw err;
-  }
+// ================= GOOGLE =================
+
+export const loginWithGoogle = () => {
+  window.location.href = "http://localhost:8081/oauth2/authorization/google";
 };
 
-// Xác thực OTP
-export const verifyOtp = async (email, code) => {
-  try {
-    const res = await axios.post(`${API_URL}/verify-otp`, { email, code });
-    return res.data;
-  } catch (err) {
-    console.error("Verify OTP error:", err);
-    throw err;
-  }
+// ================= TOKEN =================
+
+export const refreshToken = async (token) => {
+  const res = await api.post("/refresh", { token }); // ✅ sửa lại body
+  return res.data;
 };
+
+// ================= PASSWORD =================
+
+export const forgotPassword = async (email) => {
+  const res = await api.post(
+    `/forgot-password?email=${encodeURIComponent(email)}`,
+  );
+  return res.data;
+};
+
+export const resetPassword = async (email, code, newPassword) => {
+  const res = await api.post(
+    `/reset-password?email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}&newPassword=${encodeURIComponent(newPassword)}`,
+  );
+  return res.data;
+};
+
+export default api;
