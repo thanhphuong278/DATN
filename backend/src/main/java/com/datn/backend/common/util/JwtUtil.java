@@ -16,6 +16,14 @@ public class JwtUtil {
 
     @Value("${jwt.expiration}")
     private long expiration;
+//
+//    private Key key;
+//
+//    @PostConstruct
+//    public void init() {
+//        // chuyển secret thành key chuẩn (KHÔNG bị lỗi base64 nữa)
+//        key = Keys.hmacShaKeyFor(secret.getBytes());
+//    }
 
     public String generateToken(Integer userId, String role) {
         return Jwts.builder()
@@ -38,4 +46,3 @@ public class JwtUtil {
         return parseToken(token).getExpiration().before(new Date());
     }
 }
-

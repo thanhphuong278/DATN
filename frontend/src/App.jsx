@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthProvider";
 
 import AppRoutes from "./routes/AppRoutes";
 import Header from "./components/layout/Header/Header";

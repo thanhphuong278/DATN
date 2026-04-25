@@ -19,9 +19,11 @@ const ForgotPassword = () => {
 
       alert("Đã gửi mã reset về email");
 
-      navigate("/reset-password", { state: { email } }); 
+      navigate("/reset-password", { state: { email } });
     } catch (err) {
       alert("Email không tồn tại" + (err.response?.data?.message || ""));
+    } finally {
+      setLoading(false);
     }
   };
 

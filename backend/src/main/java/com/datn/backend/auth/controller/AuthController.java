@@ -6,6 +6,9 @@ import com.datn.backend.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import com.datn.backend.common.util.JwtUtil;
+import com.datn.backend.auth.repository.UserRepository;
+import com.datn.backend.auth.entity.User;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -13,6 +16,19 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtUtil jwtUtil;
+    private final UserRepository userRepo;
+
+    @GetMapping("/me")
+    public User getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+
+        String token = authHeader.replace("Bearer ", "");
+        Integer userId = Integer.parseInt(jwtUtil.parseToken(token).getSubject());
+
+        return userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 
     // ================= REGISTER =================
     @PostMapping("/register")
@@ -36,8 +52,8 @@ public class AuthController {
 
     // ================= REFRESH =================
     @PostMapping("/refresh")
-    public AuthResponse refresh(@RequestParam String token) {
-        return authService.refresh(token);
+    public AuthResponse refresh(@RequestBody RefreshRequest req) {
+        return authService.refresh(req.getRefreshToken());
     }
 
     // ================= LOGOUT =================
