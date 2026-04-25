@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import "./ForgotPW.css";
 import { forgotPassword } from "../../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,15 +15,13 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      await forgotPassword({ email }); // ✅ FIX QUAN TRỌNG
+      await forgotPassword(email);
 
       alert("Đã gửi mã reset về email");
-    } catch (err) {
-      console.log(err);
 
-      alert(err.response?.data?.message || "Email không tồn tại");
-    } finally {
-      setLoading(false);
+      navigate("/reset-password", { state: { email } }); 
+    } catch (err) {
+      alert("Email không tồn tại" + (err.response?.data?.message || ""));
     }
   };
 

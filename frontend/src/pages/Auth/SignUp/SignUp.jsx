@@ -108,11 +108,9 @@ export default function SignUp() {
               required
             />
 
-            {/* ❌ ĐÃ XÓA PHONE */}
-
             <div className="passwordBox">
               <input
-type={showPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Mật khẩu"
                 value={form.password}
@@ -202,7 +200,7 @@ type={showPassword ? "text" : "password"}
 
           <button className="facebookBtn">
             <img src="/assets/icons/facebook-logo.png" alt="Facebook" />{" "}
-Facebook
+            Facebook
           </button>
         </div>
 
