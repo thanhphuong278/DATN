@@ -16,6 +16,10 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email) {
+      return <div>Email không hợp lệ</div>;
+    }
+
     if (loading) return;
     setLoading(true);
 
@@ -24,7 +28,7 @@ const ResetPassword = () => {
 
       alert("Đổi mật khẩu thành công!");
 
-      // 👉 quay lại login
+      //quay lại login
       navigate("/login");
     } catch (err) {
       console.log(err);

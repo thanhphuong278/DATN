@@ -1,12 +1,16 @@
 import { useState } from "react";
 import "./Login.css";
 import { login, loginWithGoogle } from "../../../api/authApi";
+import { useAuth } from "../../../context/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { login: loginContext } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,31 +20,29 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (loading) return; // chống spam click
+    if (loading) return;
     setLoading(true);
 
     try {
       const data = await login(form);
 
-      // lưu token
-      if (remember) {
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
+      // gọi context
+      await loginContext(data);
+
+      // decode role từ token (nhanh gọn)
+      const payload = JSON.parse(atob(data.accessToken.split(".")[1]));
+      const role = payload.role;
+
+      console.log("ROLE:", role);
+
+      // redirect theo role
+      if (role === "ADMIN") {
+        navigate("/admin");
       } else {
-        sessionStorage.setItem("accessToken", data.accessToken);
-        sessionStorage.setItem("refreshToken", data.refreshToken);
+        navigate("/");
       }
-
-      console.log("Login Success:", data);
-
-      // redirect
-      window.location.href = "/";
     } catch (err) {
-      console.log("Login Failed:", err);
-
-      const message = err.response?.data?.message || "Sai email hoặc mật khẩu";
-      console.log("FORM:", form);
-
+      const message = err.response?.data || "Sai email hoặc mật khẩu";
       alert(message);
     } finally {
       setLoading(false);
