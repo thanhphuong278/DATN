@@ -17,6 +17,7 @@ public class User {
 
     private String email;
     private String username;
+    @Column(name = "full_name")
     private String fullName;
 
     private Boolean isVerified = false;

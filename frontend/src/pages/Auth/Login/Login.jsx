@@ -39,6 +39,7 @@ export default function Login() {
       console.log("Login Failed:", err);
 
       const message = err.response?.data?.message || "Sai email hoặc mật khẩu";
+      console.log("FORM:", form);
 
       alert(message);
     } finally {
@@ -98,7 +99,7 @@ export default function Login() {
               />
               Ghi nhớ đăng nhập
             </label>
-<a href="/forgot-password" className="forgot-link">
+            <a href="/forgot-password" className="forgot-link">
               Quên mật khẩu?
             </a>
           </div>

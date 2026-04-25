@@ -12,9 +12,6 @@ import org.springframework.stereotype.Service;
 import com.datn.backend.common.util.OtpUtil;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.UUID;
 
 @Service
@@ -25,38 +22,49 @@ public class AuthService {
     private final AuthAccountRepository accRepo;
     private final RefreshTokenRepository refreshRepo;
     private final EmailVerificationRepository otpRepo;
+    private final PasswordResetRepository passwordResetRepo;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final OtpUtil otpUtil;
     private final EmailUtil emailUtil;
-    private final PasswordResetRepository passwordResetRepo;
-
 
     // ================= REGISTER =================
     public void register(RegisterRequest req) {
 
-        var existingUser = userRepo.findByEmail(req.getEmail());
+        String email = req.getEmail().trim().toLowerCase();
+
+        var existingUser = userRepo.findByEmailIgnoreCase(email);
 
         if (existingUser.isPresent()) {
             User user = existingUser.get();
 
-            // chưa verify → cho gửi lại OTP
-            if (!Boolean.TRUE.equals(user.getIsVerified())) {
-                sendOtp(req.getEmail());
-                return;
+            boolean hasLocal = accRepo
+                    .findByUserIdAndProvider(user.getId(), "LOCAL")
+                    .isPresent();
+
+            if (hasLocal) {
+                throw new RuntimeException("Email already registered");
             }
 
-            // đã verify → chặn
-            throw new RuntimeException("Email already exists");
+            AuthAccount acc = new AuthAccount();
+            acc.setUserId(user.getId());
+            acc.setProvider("LOCAL");
+            acc.setPassword(passwordEncoder.encode(req.getPassword()));
+            accRepo.save(acc);
+
+            sendOtp(email);
+            return;
         }
 
-        // tạo user mới
         User user = new User();
-        user.setEmail(req.getEmail());
+        user.setEmail(email);
         user.setUsername(req.getUsername());
         user.setRole("USER");
         user.setIsVerified(false);
+        user.setIsActive(true);
+        user.setIsLocked(false);
+        user.setFailedAttempts(0);
 
         userRepo.save(user);
 
@@ -64,10 +72,9 @@ public class AuthService {
         acc.setUserId(user.getId());
         acc.setProvider("LOCAL");
         acc.setPassword(passwordEncoder.encode(req.getPassword()));
-
         accRepo.save(acc);
 
-        sendOtp(req.getEmail());
+        sendOtp(email);
     }
 
     // ================= OTP =================
@@ -79,6 +86,8 @@ public class AuthService {
         ev.setEmail(email);
         ev.setOtpCode(otp);
         ev.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+        ev.setAttemptCount(0);
+        ev.setIsUsed(false);
 
         otpRepo.save(ev);
         emailUtil.sendOtp(email, otp);
@@ -86,65 +95,56 @@ public class AuthService {
 
     public void verifyOtp(String email, String otp) {
 
+        email = email.trim().toLowerCase();
+
         EmailVerification ev = otpRepo.findTopByEmailOrderByIdDesc(email)
                 .orElseThrow(() -> new RuntimeException("OTP not found"));
 
-        // OTP đã dùng
-        if (Boolean.TRUE.equals(ev.getIsUsed())) {
+        if (Boolean.TRUE.equals(ev.getIsUsed()))
             throw new RuntimeException("OTP already used");
-        }
 
-        // OTP hết hạn
-        if (ev.getExpiresAt().isBefore(LocalDateTime.now())) {
+        if (ev.getExpiresAt().isBefore(LocalDateTime.now()))
             throw new RuntimeException("OTP expired");
-        }
 
-        // quá số lần nhập sai
         int attempts = ev.getAttemptCount() == null ? 0 : ev.getAttemptCount();
 
         if (attempts >= 5)
             throw new RuntimeException("Too many attempts");
 
-
-        // sai OTP
         if (!ev.getOtpCode().equals(otp)) {
-            ev.setAttemptCount(ev.getAttemptCount() + 1);
+            ev.setAttemptCount(attempts + 1);
             otpRepo.save(ev);
             throw new RuntimeException("Wrong OTP");
         }
 
-        //đúng OTP → success
         ev.setIsUsed(true);
         otpRepo.save(ev);
 
-        User user = userRepo.findByEmail(email)
+        User user = userRepo.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setIsVerified(true);
         userRepo.save(user);
     }
 
-
     // ================= LOGIN =================
     public AuthResponse login(LoginRequest req) {
 
-        User user = userRepo.findByEmail(req.getEmail())
+        String email = req.getEmail().trim().toLowerCase();
+
+        User user = userRepo.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        //chưa verify email
-        if (!Boolean.TRUE.equals(user.getIsVerified())) {
+        if (!Boolean.TRUE.equals(user.getIsVerified()))
             throw new RuntimeException("Email not verified");
-        }
 
-        //account bị khóa
-        if (Boolean.TRUE.equals(user.getIsLocked())) {
+        if (Boolean.TRUE.equals(user.getIsLocked()))
             throw new RuntimeException("Account is locked");
-        }
 
-        AuthAccount acc = accRepo.findByUserId(user.getId())
+        AuthAccount acc = accRepo
+                .findByUserIdAndProvider(user.getId(), "LOCAL")
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
-        // sai password
         if (!passwordEncoder.matches(req.getPassword(), acc.getPassword())) {
 
             int failed = user.getFailedAttempts() == null ? 0 : user.getFailedAttempts();
@@ -152,7 +152,6 @@ public class AuthService {
 
             user.setFailedAttempts(failed);
 
-            // khóa tài khoản nếu sai quá 5 lần
             if (failed >= 5) {
                 user.setIsLocked(true);
             }
@@ -162,21 +161,58 @@ public class AuthService {
             throw new RuntimeException("Wrong password");
         }
 
-        //login thành công → reset fail count
         user.setFailedAttempts(0);
         userRepo.save(user);
 
-        //update last login
         acc.setLastLogin(LocalDateTime.now());
         accRepo.save(acc);
 
-        // tạo token
         String accessToken = jwtUtil.generateToken(user.getId(), user.getRole());
         String refreshToken = UUID.randomUUID().toString();
 
         saveRefreshToken(user.getId(), refreshToken);
 
         return new AuthResponse(accessToken, refreshToken);
+    }
+
+    // ================= GOOGLE =================
+    public AuthResponse loginGoogle(String email) {
+
+        email = email.trim().toLowerCase();
+
+        User user = userRepo.findByEmailIgnoreCase(email).orElse(null);
+
+        if (user == null) {
+            user = new User();
+            user.setEmail(email);
+            user.setUsername(email);
+            user.setIsVerified(true);
+            user.setRole("USER");
+            user.setIsActive(true);
+            user.setIsLocked(false);
+            user.setFailedAttempts(0);
+
+            userRepo.save(user);
+        }
+
+        AuthAccount acc = accRepo
+                .findByUserIdAndProvider(user.getId(), "GOOGLE")
+                .orElse(null);
+
+        if (acc == null) {
+            acc = new AuthAccount();
+            acc.setUserId(user.getId());
+            acc.setProvider("GOOGLE");
+            acc.setPassword("");
+            accRepo.save(acc);
+        }
+
+        String access = jwtUtil.generateToken(user.getId(), user.getRole());
+        String refresh = UUID.randomUUID().toString();
+
+        saveRefreshToken(user.getId(), refresh);
+
+        return new AuthResponse(access, refresh);
     }
 
     // ================= REFRESH =================
@@ -190,7 +226,6 @@ public class AuthService {
 
         if (rf.getExpiresAt().isBefore(LocalDateTime.now()))
             throw new RuntimeException("Token expired");
-
 
         rf.setIsRevoked(true);
         refreshRepo.save(rf);
@@ -217,63 +252,20 @@ public class AuthService {
         rt.setUserId(userId);
         rt.setToken(token);
         rt.setIsRevoked(false);
-
-        //hạn expiresAt
-        rt.setExpiresAt(LocalDateTime.now().plusDays(7)); // hoặc 30 ngày
-
+        rt.setExpiresAt(LocalDateTime.now().plusDays(7));
         refreshRepo.save(rt);
     }
 
-
-    // ================= Resend Otp,chống spam =================
-    public void resendOtp(String email) {
-
-        EmailVerification ev = otpRepo.findTopByEmailOrderByIdDesc(email)
-                .orElseThrow(() -> new RuntimeException("OTP not found"));
-
-        //OTP đã dùng → không cho resend
-        if (Boolean.TRUE.equals(ev.getIsUsed())) {
-            throw new RuntimeException("OTP already used");
-        }
-
-        //giới hạn số lần resend
-        if (ev.getResendCount() != null && ev.getResendCount() >= 3) {
-            throw new RuntimeException("Resend limit reached");
-        }
-
-        // cooldown 60s
-        if (ev.getLastSentAt() != null &&
-                ev.getLastSentAt().plusSeconds(60).isAfter(LocalDateTime.now())) {
-            throw new RuntimeException("Please wait before resend");
-        }
-
-        // tạo OTP mới
-        String otp = otpUtil.generateOtp();
-
-        ev.setOtpCode(otp);
-        ev.setExpiresAt(LocalDateTime.now().plusMinutes(5));
-
-        //reset attempt (QUAN TRỌNG)
-        ev.setAttemptCount(0);
-
-        // tăng resend count (tránh null)
-        ev.setResendCount(
-                ev.getResendCount() == null ? 1 : ev.getResendCount() + 1
-        );
-
-        ev.setLastSentAt(LocalDateTime.now());
-
-        otpRepo.save(ev);
-
-        emailUtil.sendOtp(email, otp);
-    }
-
-
-    // ================= forgotPassword =================
+    // ================= FORGOT PASSWORD =================
     public void forgotPassword(String email) {
 
-        if (userRepo.findByEmail(email).isEmpty())
-            throw new RuntimeException("Email not found");
+        email = email.trim().toLowerCase();
+
+        User user = userRepo.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new RuntimeException("Email not found"));
+
+        accRepo.findByUserIdAndProvider(user.getId(), "LOCAL")
+                .orElseThrow(() -> new RuntimeException("Use Google login"));
 
         String code = otpUtil.generateOtp();
 
@@ -281,20 +273,26 @@ public class AuthService {
         pr.setEmail(email);
         pr.setResetCode(code);
         pr.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+        pr.setIsUsed(false);
 
         passwordResetRepo.save(pr);
         emailUtil.sendOtp(email, code);
     }
 
+    // ================= RESET PASSWORD =================
     public void resetPassword(String email, String code, String newPassword) {
+
+        email = email.trim().toLowerCase();
 
         PasswordReset pr = passwordResetRepo
                 .findTopByEmailOrderByIdDesc(email)
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("Reset request not found"));
 
-        if (pr.getIsUsed()) throw new RuntimeException("Used");
+        if (pr.getIsUsed())
+            throw new RuntimeException("Code already used");
+
         if (pr.getExpiresAt().isBefore(LocalDateTime.now()))
-            throw new RuntimeException("Expired");
+            throw new RuntimeException("Code expired");
 
         if (!pr.getResetCode().equals(code))
             throw new RuntimeException("Wrong code");
@@ -302,10 +300,49 @@ public class AuthService {
         pr.setIsUsed(true);
         passwordResetRepo.save(pr);
 
-        User user = userRepo.findByEmail(email).orElseThrow();
-        AuthAccount acc = accRepo.findByUserId(user.getId()).orElseThrow();
+        User user = userRepo.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        AuthAccount acc = accRepo
+                .findByUserIdAndProvider(user.getId(), "LOCAL")
+                .orElseThrow(() -> new RuntimeException("Account not found"));
 
         acc.setPassword(passwordEncoder.encode(newPassword));
         accRepo.save(acc);
     }
+
+    //
+    public void resendOtp(String email) {
+
+        email = email.trim().toLowerCase();
+
+        EmailVerification ev = otpRepo.findTopByEmailOrderByIdDesc(email)
+                .orElseThrow(() -> new RuntimeException("OTP not found"));
+
+        if (Boolean.TRUE.equals(ev.getIsUsed()))
+            throw new RuntimeException("OTP already used");
+
+        if (ev.getResendCount() != null && ev.getResendCount() >= 3)
+            throw new RuntimeException("Resend limit reached");
+
+        if (ev.getLastSentAt() != null &&
+                ev.getLastSentAt().plusSeconds(60).isAfter(LocalDateTime.now()))
+            throw new RuntimeException("Please wait before resend");
+
+        String otp = otpUtil.generateOtp();
+
+        ev.setOtpCode(otp);
+        ev.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+        ev.setAttemptCount(0);
+
+        ev.setResendCount(
+                ev.getResendCount() == null ? 1 : ev.getResendCount() + 1
+        );
+
+        ev.setLastSentAt(LocalDateTime.now());
+
+        otpRepo.save(ev);
+        emailUtil.sendOtp(email, otp);
+    }
+
 }
