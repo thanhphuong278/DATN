@@ -111,14 +111,13 @@ nav ul li a {
   border-color: #007bff;
 }
 
-/* Auth buttons */
 .auth-buttons button {
-  margin-left: 0.5rem;
-  padding: 0.5rem 1.2rem;
+  /* margin-left: 0.5rem; */
+  /* padding: 0.5rem 1.2rem; */
   border: none;
   cursor: pointer;
   font-weight: 500;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   transition: all 0.3s;
 }
 
@@ -183,7 +182,6 @@ nav ul li a {
     font-size: 18px;
   }
 
-  /* ACTIONS */
   .top-actions {
     display: none;
     flex-direction: column;
@@ -205,4 +203,98 @@ nav ul li a {
   .auth-buttons button {
     width: 100%;
   }
+}
+
+.user-menu {
+  position: relative;
+}
+
+.avatar-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #eee;
+  transition: 0.2s;
+}
+
+.avatar-wrapper:hover {
+  border-color: #b74435;
+  transform: scale(1.05);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  background: #b74435;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background: white;
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 160px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.dropdown.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 700;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #eee;
+  margin: 6px 0;
+}
+
+.dropdown-item.logout {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.dropdown-item.logout:hover {
+  background: #fee2e2;
 }
