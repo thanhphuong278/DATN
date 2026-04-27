@@ -90,6 +90,10 @@ export const getCurrentUser = async () => {
 
 export const login = async (data) => {
   const res = await api.post("/login", data);
+
+  localStorage.setItem("accessToken", res.data.accessToken);
+  localStorage.setItem("refreshToken", res.data.refreshToken);
+
   return res.data;
 };
 
