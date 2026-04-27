@@ -1,7 +1,37 @@
 import React, { useState } from "react";
 import "./CreateFlashcard.css";
+import { createFlashcard } from "../../api/flashcardApi";
 
 const CreateFlashcard = () => {
+
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+    const handleSave = async () => {
+        try {
+            const payload = {
+                title,
+                description,
+                isPublic,
+                cards: words.map((w) => ({
+                    term: w.korean,
+                    meaning: w.meaning,
+                    example: w.example,
+                })),
+            };
+
+            const res = await createFlashcard(payload);
+
+            console.log("SUCCESS:", res.data);
+            alert("Tạo flashcard thành công!");
+
+        } catch (err) {
+            console.error(err);
+            alert("Lỗi khi tạo flashcard");
+        }
+    };
+
+
     const [words, setWords] = useState([
         { korean: "", meaning: "", example: "" }
     ]);
@@ -42,15 +72,19 @@ const CreateFlashcard = () => {
             <input
                 className="input"
                 placeholder="Nhập tiêu đề flashcard"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
             />
+
 
             {/* Description */}
             <label>Mô tả</label>
             <textarea
                 className="textarea"
                 placeholder="Nhập mô tả cho flashcard"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
             />
-
             {/* Header vocab */}
             <div className="vocab-header">
                 <h3>Danh sách từ vựng</h3>
@@ -63,7 +97,7 @@ const CreateFlashcard = () => {
                 </div>
             </div>
 
-           
+
             {words.map((word, index) => (
                 <div className="word-card" key={index}>
                     <div className="row">
@@ -99,7 +133,9 @@ const CreateFlashcard = () => {
                 </div>
             ))}
 
-            <button className="save-btn-flashcard">Lưu Flashcard</button>
+            <button className="save-btn-flashcard" onClick={handleSave}>
+                Lưu Flashcard
+            </button>
         </div>
     );
 };

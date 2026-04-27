@@ -1,11 +1,37 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getMyFlashcards, exploreFlashcards } from "../../api/flashcardApi";
 import "./Flashcard.css";
 import { useNavigate } from "react-router-dom";
 
 
 const Flashcard = () => {
     const [activeTab, setActiveTab] = useState("explore");
+
+    const [flashcards, setFlashcards] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let res;
+
+                if (activeTab === "explore") {
+                    res = await exploreFlashcards();
+                } else {
+                    res = await getMyFlashcards();
+                }
+
+                console.log("API DATA:", res.data);
+
+                setFlashcards(res.data.data || res.data.content || res.data || []);
+            } catch (err) {
+                console.error("ERROR:", err);
+            }
+        };
+
+        fetchData();
+    }, [activeTab]);
+
     const [showForm, setShowForm] = useState(false);
     const navigate = useNavigate();
 
@@ -52,66 +78,22 @@ const Flashcard = () => {
                         <h3 className="title-flashcard">Khám phá chủ đề từ vựng</h3>
 
                         <div className="card-grid">
-                            <div className="card-horizontal" onClick={() => navigate("/study/1")}>
-                                <div className="card-icon">
-                                    📘
-                                </div>
+                            {Array.isArray(flashcards) && flashcards.map((fc) => (
+                                <div
+                                    className="card-horizontal"
+                                    key={fc.id}
+                                    onClick={() => navigate(`/study/${fc.id}`)}
+                                >
+                                    <div className="card-icon">📘</div>
 
-                                <div className="card-content">
-                                    <h3>Từ vựng đọc kỳ 96</h3>
-                                    <p>được tạo bởi phuongmin • 25 từ vựng</p>
+                                    <div className="card-content">
+                                        <h3>{fc.title || "No title"}</h3>
+                                        <p>
+                                            {fc.userId === 1 ? "tôi" : "user"} • {fc.totalCards || 0} từ vựng
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 25 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </>
                 )}
@@ -121,66 +103,22 @@ const Flashcard = () => {
                         <h3 className="title-flashcard">Flashcard của tôi</h3>
 
                         <div className="card-grid">
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
+                            {Array.isArray(flashcards) && flashcards.map((fc) => (
+                                <div
+                                    className="card-horizontal"
+                                    key={fc.id}
+                                    onClick={() => navigate(`/study/${fc.id}`)}
+                                >
+                                    <div className="card-icon">📘</div>
 
-                                <div className="card-content">
-                                    <h3>Từ vựng đọc kỳ 96</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
+                                    <div className="card-content">
+                                        <h3>{fc.title || "No title"}</h3>
+                                        <p>
+                                            {fc.userId === 1 ? "tôi" : "user"} • {fc.totalCards || 0} từ vựng
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 25 từ vựng</p>
-                                </div>
-                            </div>
-                            <div className="card-horizontal">
-                                <div className="card-icon">
-                                    📘
-                                </div>
-
-                                <div className="card-content">
-                                    <h3>Vocab N TOPIK | 83th</h3>
-                                    <p>được tạo bởi tôi • 64 từ vựng</p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </>
                 )}
