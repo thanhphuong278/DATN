@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "./header.css";
+import React, { useState, useRef, useEffect } from "react"; import "./header.css";
 import Button from "../../common/Button/Button";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/useAuth";
@@ -7,6 +6,19 @@ import { useAuth } from "../../../context/useAuth";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout, loading } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <header className="header">
@@ -57,17 +69,53 @@ const Header = () => {
                 <Button to="/signup">Đăng ký</Button>
               </>
             ) : (
-              <div className="user-menu">
-                <span className="username">
-                  {user.fullName || user.username || user.email}
-                </span>
+              <div className="user-menu" ref={dropdownRef}>
+                {/* avatar click */}
+                <div
+                  className="avatar-wrapper"
+                  onClick={() => setDropdownOpen((prev) => !prev)}
+                >
+                  {user?.avatar ? (
+                    <img src={user.avatar} alt="avatar" className="avatar-img" />
+                  ) : (
+                    <div className="avatar-fallback">
+                      {(user.fullName || user.username || user.email)
+                        ?.charAt(0)
+                        .toUpperCase()}
+                    </div>
+                  )}
+                </div>
 
-                <div className="dropdown">
-                  <Link to="/profile">Profile</Link>
+                <div className={`dropdown ${dropdownOpen ? "show" : ""}`}>
+                  <Link
+                    to="/profile"
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link>
 
-                  {user?.role === "ADMIN" && <Link to="/admin">Admin</Link>}
+                  {user?.role === "ADMIN" && (
+                    <Link
+                      to="/admin"
+                      className="dropdown-item"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      Admin
+                    </Link>
+                  )}
 
-                  <button onClick={logout}>Logout</button>
+                  <div className="dropdown-divider" />
+
+                  <button
+                    className="dropdown-item logout"
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      logout();
+                    }}
+                  >
+                    Logout
+                  </button>
                 </div>
               </div>
             )}
