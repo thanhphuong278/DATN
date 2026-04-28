@@ -1,6 +1,8 @@
 package com.datn.backend.flashcard.service;
 
 import com.datn.backend.flashcard.dto.request.CreateFlashcardRequest;
+import com.datn.backend.flashcard.dto.response.CardResponse;
+import com.datn.backend.flashcard.dto.response.FlashcardDetailResponse;
 import com.datn.backend.flashcard.dto.response.FlashcardResponse;
 import com.datn.backend.flashcard.entity.Card;
 import com.datn.backend.flashcard.entity.FlashcardSet;
@@ -54,27 +56,49 @@ public class FlashcardService {
     }
 
     public List<FlashcardResponse> getMyFlashcards(Integer userId) {
-        return flashcardSetRepository.findByUserId(userId)
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+        return flashcardSetRepository.findMyFlashcards(userId);
     }
 
     public List<FlashcardResponse> exploreFlashcards() {
-        return flashcardSetRepository.findByIsPublicTrueOrderByCreatedAtDesc()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+        return flashcardSetRepository.findExploreFlashcards();
     }
 
-    private FlashcardResponse mapToResponse(FlashcardSet set) {
-        return FlashcardResponse.builder()
+//    private FlashcardResponse mapToResponse(FlashcardSet set) {
+//        return FlashcardResponse.builder()
+//                .id(set.getId())
+//                .title(set.getTitle())
+//                .description(set.getDescription())
+//                .isPublic(set.getIsPublic())
+//                .totalCards(set.getTotalCards())
+//                .userId(set.getUserId())
+//                .build();
+//    }
+
+
+    public FlashcardDetailResponse getFlashcardDetail(Long id) {
+
+        FlashcardSet set = flashcardSetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Flashcard not found"));
+
+        List<CardResponse> cards = cardRepository
+                .findByFlashcardSetId(set.getId())
+                .stream()
+                .map(c -> CardResponse.builder()
+                        .id(c.getId())
+                        .term(c.getTerm())
+                        .meaning(c.getMeaning())
+                        .example(c.getExample())
+                        .imageUrl(c.getImageUrl())
+                        .build()
+                ).toList();
+
+        return FlashcardDetailResponse.builder()
                 .id(set.getId())
                 .title(set.getTitle())
                 .description(set.getDescription())
                 .isPublic(set.getIsPublic())
-                .totalCards(set.getTotalCards())
                 .userId(set.getUserId())
+                .cards(cards)
                 .build();
     }
 }

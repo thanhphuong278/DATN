@@ -9,6 +9,7 @@ import Flashcard from "../pages/Flashcard/Flashcard.jsx";
 import CreateFlashcard from "../pages/Flashcard/CreateFlashcard.jsx";
 import StudyFlashcard from "../pages/Flashcard/StudyFlashcard.jsx";
 import ResetPassword from "../pages/auth/ForgotPW/ResetPassword.jsx";
+import FlashcardDetail from "../pages/Flashcard/FlashcardDetail.jsx";
 
 import OAuth2Success from "../pages/Auth/OAuth2Success.jsx";
 export default function AppRoutes() {
@@ -23,6 +24,7 @@ export default function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="flashcard" element={<Flashcard />} />
       <Route path="flashcard/create-flashcard" element={<CreateFlashcard />} />
+      <Route path="/flashcard/:id" element={<FlashcardDetail />} />
       <Route path="/study/:id" element={<StudyFlashcard />} />
       <Route path="/reset-password" element={<ResetPassword />} />
     </Routes>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./CreateFlashcard.css";
 import { createFlashcard } from "../../api/flashcardApi";
 
@@ -6,6 +7,7 @@ const CreateFlashcard = () => {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const navigate = useNavigate();
 
     const handleSave = async () => {
         try {
@@ -24,6 +26,9 @@ const CreateFlashcard = () => {
 
             console.log("SUCCESS:", res.data);
             alert("Tạo flashcard thành công!");
+
+            navigate("/flashcard");
+
 
         } catch (err) {
             console.error(err);
