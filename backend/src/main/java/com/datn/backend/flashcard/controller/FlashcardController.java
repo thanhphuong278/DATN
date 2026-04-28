@@ -44,6 +44,13 @@ public class FlashcardController {
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getDetail(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                flashcardService.getFlashcardDetail(id)
+        );
+    }
+
     private Integer getUserId(Authentication authentication) {
         if (authentication == null || authentication.getPrincipal() == null) {
             throw new RuntimeException("Chưa đăng nhập");

@@ -21,3 +21,8 @@ API.interceptors.request.use((config) => {
 export const createFlashcard = (data) => API.post("/flashcards", data);
 export const getMyFlashcards = () => API.get("/flashcards/my");
 export const exploreFlashcards = () => API.get("/flashcards/explore");
+export const getFlashcardDetail = (id) =>
+    API.get(`/flashcards/${id}`); 
+
+export const saveProgress = (cardId, known) =>
+  API.post(`/progress?cardId=${cardId}&known=${known}`);

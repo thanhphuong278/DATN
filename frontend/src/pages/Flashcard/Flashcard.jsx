@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import { getMyFlashcards, exploreFlashcards } from "../../api/flashcardApi";
 import "./Flashcard.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const Flashcard = () => {
     const [activeTab, setActiveTab] = useState("explore");
 
     const [flashcards, setFlashcards] = useState([]);
+
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,15 +37,8 @@ const Flashcard = () => {
     }, [activeTab]);
 
     const [showForm, setShowForm] = useState(false);
-    const navigate = useNavigate();
 
 
-
-    const myWords = [
-        { korean: "사랑", meaning: "Tình yêu" },
-        { korean: "학교", meaning: "Trường học" },
-        { korean: "친구", meaning: "Bạn bè" },
-    ];
 
     return (
         <div className="flashcard-container">
@@ -82,14 +79,14 @@ const Flashcard = () => {
                                 <div
                                     className="card-horizontal"
                                     key={fc.id}
-                                    onClick={() => navigate(`/study/${fc.id}`)}
+                                    onClick={() => navigate(`/flashcard/${fc.id}`)}
                                 >
                                     <div className="card-icon">📘</div>
 
                                     <div className="card-content">
-                                        <h3>{fc.title || "No title"}</h3>
+                                        <h3>{fc.title}</h3>
                                         <p>
-                                            {fc.userId === 1 ? "tôi" : "user"} • {fc.totalCards || 0} từ vựng
+                                            {fc.username} • {fc.totalCards} từ vựng
                                         </p>
                                     </div>
                                 </div>
@@ -107,14 +104,14 @@ const Flashcard = () => {
                                 <div
                                     className="card-horizontal"
                                     key={fc.id}
-                                    onClick={() => navigate(`/study/${fc.id}`)}
+                                    onClick={() => navigate(`/flashcard/${fc.id}`)}
                                 >
                                     <div className="card-icon">📘</div>
 
                                     <div className="card-content">
-                                        <h3>{fc.title || "No title"}</h3>
+                                        <h3>{fc.title}</h3>
                                         <p>
-                                            {fc.userId === 1 ? "tôi" : "user"} • {fc.totalCards || 0} từ vựng
+                                            {fc.username} • {fc.totalCards} từ vựng
                                         </p>
                                     </div>
                                 </div>

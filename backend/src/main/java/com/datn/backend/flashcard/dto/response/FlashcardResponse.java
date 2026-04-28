@@ -12,4 +12,17 @@ public class FlashcardResponse {
     private Boolean isPublic;
     private Integer totalCards;
     private Integer userId;
+    private String username;
+
+    public FlashcardResponse(Long id, String title, String description, Boolean isPublic, Integer totalCards, Integer userId, String username) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.isPublic = isPublic;
+        this.totalCards = totalCards;
+        this.userId = userId;
+        this.username = username;
+    }
+
+
 }
