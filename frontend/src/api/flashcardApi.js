@@ -26,3 +26,9 @@ export const getFlashcardDetail = (id) =>
 
 export const saveProgress = (cardId, known) =>
   API.post(`/progress?cardId=${cardId}&known=${known}`);
+
+export const copyFlashcard = (id) => 
+    API.post(`/flashcards/${id}/copy`);
+
+export const updateFlashcard = (id, data) => 
+    API.put(`/flashcards/${id}`, data);

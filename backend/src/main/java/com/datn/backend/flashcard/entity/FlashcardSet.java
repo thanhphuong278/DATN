@@ -27,6 +27,9 @@ public class FlashcardSet {
     @Column(name = "total_cards")
     private Integer totalCards;
 
+    @Column(name = "copied_from_id")
+    private Long copiedFromId;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

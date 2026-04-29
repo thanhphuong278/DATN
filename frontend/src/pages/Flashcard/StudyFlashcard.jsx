@@ -114,108 +114,122 @@ const StudyFlashcard = () => {
     
 
     return (
-        <div className="study-container">
+    <div className="study-container">
 
-            <div className="top-bar">
-                <button className="back-btn" onClick={() => navigate(-1)}>
-                    ←
-                </button>
+        {/* HEADER */}
+        <div className="top-bar">
+            <button className="back-btn" onClick={() => navigate(-1)}>
+                ←
+            </button>
 
-                <h3 className="title">{title}</h3>
+            <h3 className="title">{title}</h3>
 
-                <div className="top-actions">
-                    <button onClick={shuffleWords}>🔀</button>
-                </div>
-            </div>
+            <button className="shuffle-btn" onClick={shuffleWords}>
+                🔀
+            </button>
+        </div>
 
+        {/* PROGRESS */}
+        <div className="progress-wrapper">
             <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${progress}%` }} />
+                <div
+                    className="progress-fill"
+                    style={{ width: `${progress}%` }}
+                />
             </div>
+            <span className="progress-text">
+                {index + 1}/{words.length}
+            </span>
+        </div>
 
-            <div className="card-wrapper" onClick={() => setFlipped(!flipped)}>
-                <div className={`card-std ${flipped ? "flipped" : ""}`}>
+        {/* CARD */}
+        <div
+            className="card-wrapper"
+            onClick={() => setFlipped(!flipped)}
+        >
+            <div className={`card-std ${flipped ? "flipped" : ""}`}>
 
-                    <div className="card-std-face front">
-                        <h1>{current.korean}</h1>
+                {/* FRONT */}
+                <div className="card-std-face front">
+                    <h1>{current.korean}</h1>
 
+                    <button
+                        className="sound-btn"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            speak();
+                        }}
+                    >
+                        🔊
+                    </button>
+
+                    <p>Nhấn để xem nghĩa</p>
+                </div>
+
+                {/* BACK */}
+                <div className="card-std-face back">
+                    <h1>{current.meaning}</h1>
+                    <p>Nhấn để quay lại</p>
+                </div>
+
+            </div>
+        </div>
+
+        {/* ACTION */}
+        <div className="actions">
+            <button
+                className="wrong"
+                onClick={() => markAnswer(false)}
+            >
+                ❌ Chưa biết
+            </button>
+
+            <button
+                className="right"
+                onClick={() => markAnswer(true)}
+            >
+                ✅ Đã biết
+            </button>
+        </div>
+
+        {/* RESULT */}
+        {showResult && (
+            <div className="result-overlay">
+                <div className="result-modal">
+
+                    <h2>Hoàn thành 🎉</h2>
+
+                    <p>
+                        Bạn đã học <b>{correct}/{total}</b> từ
+                    </p>
+
+                    <div className="result-actions">
                         <button
-                            className="sound-btn"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                speak();
+                            className="retry"
+                            onClick={() => {
+                                setIndex(0);
+                                setFlipped(false);
+                                setKnownList([]);
+                                setShowResult(false);
                             }}
                         >
-                            🔊
+                            Học lại
                         </button>
 
-                        <p>Nhấn để xem nghĩa</p>
-                    </div>
-
-                    <div className="card-std-face back">
-                        <h1>{current.meaning}</h1>
-                        <p>Nhấn để quay lại</p>
+                        <button
+                            className="exit"
+                            onClick={() => navigate(-1)}
+                        >
+                            Thoát
+                        </button>
                     </div>
 
                 </div>
             </div>
+        )}
 
-            <div className="nav">
-                <button onClick={prev}>←</button>
-                <span>{index + 1} / {words.length}</span>
-                <button onClick={next}>→</button>
-            </div>
-
-            <div className="actions">
-                <button className="wrong" onClick={() => markAnswer(false)}>
-                    Chưa biết
-                </button>
-
-                <button className="right" onClick={() => markAnswer(true)}>
-                    Đã biết
-                </button>
-            </div>
-
-            <div className="hint">
-                Space: lật • ← →: chuyển
-            </div>
-
-            {showResult && (
-                <div className="result-overlay">
-                    <div className="result-modal">
-
-                        <h2>Hoàn thành 🎉</h2>
-
-                        <p>
-                            Bạn đã học <b>{correct}/{total}</b> từ
-                        </p>
-
-                        <div className="result-actions">
-                            <button
-                                className="retry"
-                                onClick={() => {
-                                    setIndex(0);
-                                    setFlipped(false);
-                                    setKnownList([]);
-                                    setShowResult(false);
-                                }}
-                            >
-                                Học lại
-                            </button>
-
-                            <button
-                                className="exit"
-                                onClick={() => navigate(-1)}
-                            >
-                                Thoát
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            )}
-
-        </div>
-    );
+    </div>
+);
 
 };
 
