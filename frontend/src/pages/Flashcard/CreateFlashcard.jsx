@@ -82,7 +82,6 @@ const CreateFlashcard = () => {
             />
 
 
-            {/* Description */}
             <label>Mô tả</label>
             <textarea
                 className="textarea"
@@ -90,7 +89,6 @@ const CreateFlashcard = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
             />
-            {/* Header vocab */}
             <div className="vocab-header">
                 <h3>Danh sách từ vựng</h3>
                 <div className="actions">

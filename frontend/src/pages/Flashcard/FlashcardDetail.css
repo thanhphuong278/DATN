@@ -1,0 +1,101 @@
+.detail-container {
+    max-width: 900px;
+    margin: 100px auto;
+    padding: 20px;
+}
+
+.detail-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.desc {
+    margin-top: 8px;
+    color: #6b7280;
+}
+
+.meta {
+    margin-top: 10px;
+    color: #9ca3af;
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+}
+
+.action-bar {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-bar button {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.primary {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: white;
+}
+
+.primary:hover {
+    opacity: 0.9;
+}
+
+.secondary {
+    background: #f3f4f6;
+}
+
+.secondary:hover {
+    background: #e5e7eb;
+}
+
+/* WORD LIST */
+.word-list {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.word-card {
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.2s;
+}
+
+.word-card:hover {
+    transform: translateY(-3px);
+}
+
+.term {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.meaning {
+    margin-top: 6px;
+    font-size: 16px;
+    color: #4b5563;
+}
+
+.example {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* LOADING */
+.loading {
+    text-align: center;
+    margin-top: 100px;
+}

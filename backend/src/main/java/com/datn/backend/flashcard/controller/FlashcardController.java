@@ -1,6 +1,7 @@
 package com.datn.backend.flashcard.controller;
 
 import com.datn.backend.flashcard.dto.request.CreateFlashcardRequest;
+import com.datn.backend.flashcard.dto.request.UpdateFlashcardRequest;
 import com.datn.backend.flashcard.service.FlashcardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,27 @@ public class FlashcardController {
     public ResponseEntity<?> getDetail(@PathVariable Long id) {
         return ResponseEntity.ok(
                 flashcardService.getFlashcardDetail(id)
+        );
+    }
+
+    @PostMapping("/{id}/copy")
+    public ResponseEntity<?> copyFlashcard(
+            @PathVariable Long id,
+            @AuthenticationPrincipal(expression = "id") Integer userId
+    ) {
+        return ResponseEntity.ok(
+                flashcardService.copyFlashcard(id, userId)
+        );
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateFlashcard(
+            @PathVariable Long id,
+            @RequestBody UpdateFlashcardRequest request,
+            @AuthenticationPrincipal(expression = "id") Integer userId
+    ) {
+        return ResponseEntity.ok(
+                flashcardService.updateFlashcard(id, request, userId)
         );
     }
 
