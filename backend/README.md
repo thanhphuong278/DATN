@@ -1,4 +1,4 @@
-src/main/java/com/datn/backend/
+**src/main/java/com/datn/backend/
 
 ├── common/                # chứa những thứ dùng chung toàn hệ thống
 │   ├── config/            # config (security, jwt, cors...) -- cấu hình hệ thống
@@ -38,4 +38,10 @@ src/main/java/com/datn/backend/
 │   ├── entity/             # định nghĩa các thực thể liên quan đến đề thi (Exam, Question...)
 │   └── dto/                # các lớp DTO để truyền dữ liệu giữa client và server qua API liên quan đến đề thi
 
-└── BackendAppApplication.java
+├── flashcard/                 
+│   ├── controller/        
+│   ├── service/            
+│   ├── repository/         
+│   ├── entity/             
+│   └── dto/
+└── BackendAppApplication.java**
