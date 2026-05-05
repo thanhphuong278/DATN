@@ -49,8 +49,8 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/oauth2/**",
                                 "/login/**",
-                                "/api/flashcards/explore",
-                                "/api/**"
+                                "/api/flashcards/explore"
+//                                "/api/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()
